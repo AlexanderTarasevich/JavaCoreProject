@@ -1,0 +1,60 @@
+@startuml
+class Main {
+    +void main(String[] args)
+}
+class TransferService {
+    -Map<String, Account> accounts
+    +void transfer(Transaction transaction)
+    -void loadAccounts()
+    -void updateAccountsFile()
+}
+class ArchiveService {
+    +void archiveFile(File file)
+}
+class Transaction {
+    -String fromAccount
+    -String toAccount
+    -int amount
+    +String getFromAccount()
+    +void setFromAccount(String fromAccount)
+    +String getToAccount()
+    +void setToAccount(String toAccount)
+    +int getAmount()
+    +void setAmount(int amount)
+}
+class Account {
+    -String accountNumber
+    -int balance
+    +String getAccountNumber()
+    +void setAccountNumber(String accountNumber)
+    +int getBalance()
+    +void setBalance(int balance)
+}
+class Parser {
+    +static Transaction parseLine(String line)
+}
+class FileHandler {
+    +static List<String> readFile(String filePath)
+    +static void appendFile(String filePath, List<String> lines)
+    +static void writeFile(String filePath, List<String> lines)
+}
+class ReportGenerator {
+    +static void generateReport(Transaction transaction, boolean success, String failName, String errorMessage)
+}
+class InvalidAccountException {
+}
+Main --> TransferService
+Main --> ArchiveService
+TransferService --> Transaction
+TransferService --> Account
+TransferService --> FileHandler
+ArchiveService --> FileHandler
+Parser --> Transaction
+FileHandler --> Parser
+ReportGenerator --> Transaction
+ReportGenerator --> FileHandler
+Main --> Parser
+Main --> FileHandler
+Main --> ReportGenerator
+TransferService --> InvalidAccountException
+@enduml
